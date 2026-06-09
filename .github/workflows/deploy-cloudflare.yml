@@ -40,7 +40,7 @@ jobs:
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
         run: |
-          doppler secrets download --project=sinod --config=str --format=env > .env
+          doppler secrets download --project=sinod --config=stg --format=env > .env
 
       - name: Load environment variables
         run: |
