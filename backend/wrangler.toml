@@ -1,0 +1,22 @@
+name = "sinod-backend"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "production"
+
+[env.staging]
+name = "sinod-backend-staging"
+vars = { ENVIRONMENT = "staging" }
+
+[env.production]
+name = "sinod-backend"
+vars = { ENVIRONMENT = "production" }
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "sinod-backend-assets"
+
+[build]
+command = "pip install -r requirements.txt"
+cwd = "."

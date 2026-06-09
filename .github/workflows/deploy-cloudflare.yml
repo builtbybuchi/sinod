@@ -1,0 +1,213 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - staging
+      - production
+  workflow_dispatch:
+
+jobs:
+  deploy-staging:
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Doppler CLI
+        run: |
+          curl -fsSL https://cli.doppler.com/install.sh | sh
+
+      - name: Install Wrangler
+        run: |
+          npm install -g wrangler
+
+      - name: Fetch secrets from Doppler (Staging)
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+        run: |
+          doppler secrets download --project=sinod --config=str --format=env > .env
+
+      - name: Load environment variables
+        run: |
+          export $(cat .env | xargs)
+          echo "CF_ACCOUNT_ID=$CF_ACCOUNT_ID" >> $GITHUB_ENV
+          echo "CF_API_TOKEN=$CF_API_TOKEN" >> $GITHUB_ENV
+          echo "R2_ACCESS_KEY_ID=$R2_ACCESS_KEY_ID" >> $GITHUB_ENV
+          echo "R2_ACCOUNT_ID=$R2_ACCOUNT_ID" >> $GITHUB_ENV
+          echo "APPWRITE_ENDPOINT=$APPWRITE_ENDPOINT" >> $GITHUB_ENV
+          echo "APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID" >> $GITHUB_ENV
+          echo "APPWRITE_API_KEY=$APPWRITE_API_KEY" >> $GITHUB_ENV
+
+      - name: Run Appwrite Setup (Staging)
+        env:
+          APPWRITE_ENDPOINT: ${{ env.APPWRITE_ENDPOINT }}
+          APPWRITE_PROJECT_ID: ${{ env.APPWRITE_PROJECT_ID }}
+          APPWRITE_API_KEY: ${{ env.APPWRITE_API_KEY }}
+        run: |
+          cd backend
+          pip install -r requirements.txt
+          python scripts/appwrite_setup.py
+
+      - name: Deploy Admin (Next.js) - Staging
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd admin
+          npm install
+          npm run build
+          npx @cloudflare/next-on-pages
+          wrangler pages deploy .vercel/output/static --project-name=sinod-admin-staging
+
+      - name: Deploy Frontend (React/Vite) - Staging
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd frontend
+          npm install
+          npm run build
+          wrangler pages deploy dist --project-name=sinod-frontend-staging
+
+      - name: Deploy Landing (React/Vite) - Staging
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd landing
+          npm install
+          npm run build
+          wrangler pages deploy dist --project-name=sinod-landing-staging
+
+      - name: Deploy Backend (Python) - Staging
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd backend
+          echo "Python backend deployment - see backend/DEPLOYMENT_CLOUDFLARE.md for setup"
+
+      - name: Deploy Newsletter (Python) - Staging
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd newsletter
+          echo "Python newsletter deployment - see newsletter/DEPLOYMENT_CLOUDFLARE.md for setup"
+
+  deploy-production:
+    if: github.ref == 'refs/heads/production'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Doppler CLI
+        run: |
+          curl -fsSL https://cli.doppler.com/install.sh | sh
+
+      - name: Install Wrangler
+        run: |
+          npm install -g wrangler
+
+      - name: Fetch secrets from Doppler (Production)
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+        run: |
+          doppler secrets download --project=sinod --config=prd --format=env > .env
+
+      - name: Load environment variables
+        run: |
+          export $(cat .env | xargs)
+          echo "CF_ACCOUNT_ID=$CF_ACCOUNT_ID" >> $GITHUB_ENV
+          echo "CF_API_TOKEN=$CF_API_TOKEN" >> $GITHUB_ENV
+          echo "R2_ACCESS_KEY_ID=$R2_ACCESS_KEY_ID" >> $GITHUB_ENV
+          echo "R2_ACCOUNT_ID=$R2_ACCOUNT_ID" >> $GITHUB_ENV
+          echo "APPWRITE_ENDPOINT=$APPWRITE_ENDPOINT" >> $GITHUB_ENV
+          echo "APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID" >> $GITHUB_ENV
+          echo "APPWRITE_API_KEY=$APPWRITE_API_KEY" >> $GITHUB_ENV
+
+      - name: Run Appwrite Setup (Production)
+        env:
+          APPWRITE_ENDPOINT: ${{ env.APPWRITE_ENDPOINT }}
+          APPWRITE_PROJECT_ID: ${{ env.APPWRITE_PROJECT_ID }}
+          APPWRITE_API_KEY: ${{ env.APPWRITE_API_KEY }}
+        run: |
+          cd backend
+          pip install -r requirements.txt
+          python scripts/appwrite_setup.py
+
+      - name: Deploy Admin (Next.js) - Production
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd admin
+          npm install
+          npm run build
+          npx @cloudflare/next-on-pages
+          wrangler pages deploy .vercel/output/static --project-name=sinod-admin
+
+      - name: Deploy Frontend (React/Vite) - Production
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd frontend
+          npm install
+          npm run build
+          wrangler pages deploy dist --project-name=sinod-frontend
+
+      - name: Deploy Landing (React/Vite) - Production
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd landing
+          npm install
+          npm run build
+          wrangler pages deploy dist --project-name=sinod-landing
+
+      - name: Deploy Backend (Python) - Production
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd backend
+          echo "Python backend deployment - see backend/DEPLOYMENT_CLOUDFLARE.md for setup"
+
+      - name: Deploy Newsletter (Python) - Production
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
+        run: |
+          cd newsletter
+          echo "Python newsletter deployment - see newsletter/DEPLOYMENT_CLOUDFLARE.md for setup"
