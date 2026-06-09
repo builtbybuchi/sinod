@@ -41,17 +41,13 @@ jobs:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
         run: |
           doppler secrets download --project=sinod --config=stg --format=env > .env
-
-      - name: Load environment variables
-        run: |
-          export $(cat .env | xargs)
-          echo "CF_ACCOUNT_ID=$CF_ACCOUNT_ID" >> $GITHUB_ENV
-          echo "CF_API_TOKEN=$CF_API_TOKEN" >> $GITHUB_ENV
-          echo "R2_ACCESS_KEY_ID=$R2_ACCESS_KEY_ID" >> $GITHUB_ENV
-          echo "R2_ACCOUNT_ID=$R2_ACCOUNT_ID" >> $GITHUB_ENV
-          echo "APPWRITE_ENDPOINT=$APPWRITE_ENDPOINT" >> $GITHUB_ENV
-          echo "APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID" >> $GITHUB_ENV
-          echo "APPWRITE_API_KEY=$APPWRITE_API_KEY" >> $GITHUB_ENV
+          echo "CF_ACCOUNT_ID=$(grep '^CF_ACCOUNT_ID=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "CF_API_TOKEN=$(grep '^CF_API_TOKEN=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "R2_ACCESS_KEY_ID=$(grep '^R2_ACCESS_KEY_ID=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "R2_ACCOUNT_ID=$(grep '^R2_ACCOUNT_ID=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "APPWRITE_ENDPOINT=$(grep '^APPWRITE_ENDPOINT=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "APPWRITE_PROJECT_ID=$(grep '^APPWRITE_PROJECT_ID=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "APPWRITE_API_KEY=$(grep '^APPWRITE_API_KEY=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
 
       - name: Run Appwrite Setup (Staging)
         env:
@@ -143,17 +139,13 @@ jobs:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
         run: |
           doppler secrets download --project=sinod --config=prd --format=env > .env
-
-      - name: Load environment variables
-        run: |
-          export $(cat .env | xargs)
-          echo "CF_ACCOUNT_ID=$CF_ACCOUNT_ID" >> $GITHUB_ENV
-          echo "CF_API_TOKEN=$CF_API_TOKEN" >> $GITHUB_ENV
-          echo "R2_ACCESS_KEY_ID=$R2_ACCESS_KEY_ID" >> $GITHUB_ENV
-          echo "R2_ACCOUNT_ID=$R2_ACCOUNT_ID" >> $GITHUB_ENV
-          echo "APPWRITE_ENDPOINT=$APPWRITE_ENDPOINT" >> $GITHUB_ENV
-          echo "APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID" >> $GITHUB_ENV
-          echo "APPWRITE_API_KEY=$APPWRITE_API_KEY" >> $GITHUB_ENV
+          echo "CF_ACCOUNT_ID=$(grep '^CF_ACCOUNT_ID=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "CF_API_TOKEN=$(grep '^CF_API_TOKEN=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "R2_ACCESS_KEY_ID=$(grep '^R2_ACCESS_KEY_ID=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "R2_ACCOUNT_ID=$(grep '^R2_ACCOUNT_ID=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "APPWRITE_ENDPOINT=$(grep '^APPWRITE_ENDPOINT=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "APPWRITE_PROJECT_ID=$(grep '^APPWRITE_PROJECT_ID=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
+          echo "APPWRITE_API_KEY=$(grep '^APPWRITE_API_KEY=' .env | cut -d'=' -f2-)" >> $GITHUB_ENV
 
       - name: Run Appwrite Setup (Production)
         env:
