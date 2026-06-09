@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sinod' - Event, meet and converse the new way </title>
+    <meta name="description" content="Sinod' is a next-generation event engine and video conferencing platform with AI-powered features designed to enhance productivity and collaboration." />
+    <meta name="keywords" content="video conferencing, teleconferencing, online meetings, virtual meetings, remote collaboration, Sinod, Sinod'" />
+    <meta name="author" content="Lexrunit" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sinod.lexrunit.com/" />
+    <meta property="og:title" content="Sinod' - A new way to event, meet and converse." />
+    <meta property="og:description" content="Experience the future of video conferencing with AI-powered features, crystal clear audio, and seamless collaboration tools." />
+    <meta property="og:image" content="https://sinod.lexrunit.com/sinod'.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://sinod.lexrunit.com/" />
+    <meta property="twitter:title" content="Sinod' - A new way to event, meet and converse." />
+    <meta property="twitter:description" content="Experience the future of video conferencing with AI-powered features, crystal clear audio, and seamless collaboration tools." />
+    <meta property="twitter:image" content="https://sinod.lexrunit.com/sinod'.png" />
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/favicon_io/site.webmanifest">
+    <link rel="shortcut icon" href="/favicon_io/favicon.ico">
+    <link rel="canonical" href="https://lyperos.lexrunit.com/" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://randomuser.me" crossorigin>
+  <link rel="dns-prefetch" href="https://randomuser.me">
+  <link rel="stylesheet" href="index.css">
+  
+  <style>
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #111827; /* bg-gray-900 */
+      z-index: 9999;
+    }
+
+    .loading-logo {
+      width: 100px;
+      height: auto;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+    }
+
+    /* Hide the loader once the React app mounts and adds content */
+    #root:not(:empty) + .loading-container {
+      display: none;
+    }
+    /* Fallback for scripts disabled or if the above doesn't work */
+    body.loaded .loading-container {
+      display: none;
+    }
+  </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-088Y3H87WR"></script>
+<!-- Web Push setup using SendPulse -->
+<script charset="UTF-8" src="//web.webpushs.com/js/push/3d028e1861472ae2b95b5b3d5a9bd4ea_1.js" async></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-088Y3H87WR');
+</script>
+  <body class="bg-gray-900 text-white">
+    <div id="root">
+      <!-- This loader will be displayed while the app is loading -->
+      <div class="loading-container">
+        <img src="/sinod-logo.png" alt="Loading..." class="loading-logo">
+      </div>
+    </div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

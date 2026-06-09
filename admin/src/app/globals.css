@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(113, 113, 122, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 113, 122, 0.5);
+}
+
+/* Smooth transitions */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(113, 113, 122, 0.3) transparent;
+}
+
+/* Table styles */
+.admin-table {
+  @apply w-full text-sm;
+}
+
+.admin-table th {
+  @apply text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider py-3 px-4 border-b border-zinc-800;
+}
+
+.admin-table td {
+  @apply py-3 px-4 border-b border-zinc-800/50 text-zinc-300;
+}
+
+.admin-table tr:hover td {
+  @apply bg-zinc-800/20;
+}
+
+/* Card component */
+.admin-card {
+  @apply bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 rounded-2xl;
+}
+
+/* Badge */
+.badge {
+  @apply text-[11px] font-medium px-2 py-0.5 rounded-full;
+}
+
+.badge-success {
+  @apply bg-emerald-500/10 text-emerald-400 border border-emerald-500/20;
+}
+
+.badge-warning {
+  @apply bg-amber-500/10 text-amber-400 border border-amber-500/20;
+}
+
+.badge-danger {
+  @apply bg-red-500/10 text-red-400 border border-red-500/20;
+}
+
+.badge-info {
+  @apply bg-blue-500/10 text-blue-400 border border-blue-500/20;
+}
+
+.badge-neutral {
+  @apply bg-zinc-500/10 text-zinc-400 border border-zinc-500/20;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply px-4 py-2 bg-gradient-to-r from-violet-600 to-blue-600 text-white font-medium rounded-xl hover:from-violet-500 hover:to-blue-500 transition-all shadow-lg shadow-violet-600/10 text-sm;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-zinc-800 text-zinc-300 font-medium rounded-xl hover:bg-zinc-700 transition-all text-sm border border-zinc-700;
+}
+
+.btn-danger {
+  @apply px-4 py-2 bg-red-500/10 text-red-400 font-medium rounded-xl hover:bg-red-500/20 transition-all text-sm border border-red-500/20;
+}
+
+/* Input styles */
+.admin-input {
+  @apply w-full px-4 py-2.5 bg-zinc-800/50 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 transition-all text-sm;
+}
+
+/* Tab styles */
+.tab-btn {
+  @apply px-4 py-2 text-sm font-medium rounded-lg transition-all;
+}
+
+.tab-btn-active {
+  @apply bg-violet-600/20 text-violet-400 border border-violet-500/20;
+}
+
+.tab-btn-inactive {
+  @apply text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50;
+}
+
+/* Stat card glow effects */
+.stat-glow-violet {
+  box-shadow: 0 0 60px -15px rgba(139, 92, 246, 0.15);
+}
+
+.stat-glow-blue {
+  box-shadow: 0 0 60px -15px rgba(59, 130, 246, 0.15);
+}
+
+.stat-glow-emerald {
+  box-shadow: 0 0 60px -15px rgba(16, 185, 129, 0.15);
+}
+
+.stat-glow-amber {
+  box-shadow: 0 0 60px -15px rgba(245, 158, 11, 0.15);
+}

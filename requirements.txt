@@ -1,0 +1,41 @@
+# FastAPI and server
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.6
+
+# Pydantic for data validation
+pydantic>=2.5.3
+pydantic-settings>=2.1.0
+email-validator>=2.1.0
+
+# HTTP client
+httpx>=0.26.0
+
+# Authentication and Security
+PyJWT>=2.8.0
+bcrypt>=4.1.2
+passlib>=1.7.4
+
+# QR Code generation
+qrcode[pil]>=7.4.2
+Pillow>=10.3.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Logging
+loguru>=0.7.2
+
+# PDF generation for certificates
+reportlab>=4.0.7
+
+# Data visualization for reports
+matplotlib>=3.8.0
+numpy>=1.24.0
+
+# Google Gemini AI
+google-generativeai>=0.3.0
+
+# Appwrite SDK
+appwrite>=4.0.0
+

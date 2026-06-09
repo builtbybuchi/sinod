@@ -1,0 +1,8 @@
+{
+  "name": "Sinod' - New way to meet and event",
+  "description": "",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

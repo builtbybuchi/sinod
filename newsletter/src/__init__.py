@@ -1,0 +1,1 @@
+# Sinod Newsletter Microservice

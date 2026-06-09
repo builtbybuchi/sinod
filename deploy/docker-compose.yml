@@ -1,0 +1,20 @@
+services:
+  backend:
+    image: registry.gitlab.com/lexrunit/lyperos/backend:latest
+    restart: always
+    ports:
+      - "4000:4000"
+
+  frontend:
+    image: registry.gitlab.com/lexrunit/lyperos/frontend:latest
+    restart: always
+    ports:
+      - "8080:80"
+
+
+  python-service:
+    image: registry.gitlab.com/lexrunit/lyperos/python-service:latest
+    restart: always
+    ports:
+      - "8001:8001"
+ 

@@ -1,0 +1,33 @@
+This is the admin panel for Sinod' 
+
+It would be hosted at admin.sinod.app 
+
+This admin panel should be build very carefully for strong security. 
+
+The appwrite setup page provided as context should help to provide a detailed knowledge of the database. 
+
+
+The aim of this is beyond just viewing all events, both private and private for all users, having ability to delete any event, form, quiz and newsletters. 
+
+This admin panel should also have the ability to  to help monitor all user activities, view the total number of users, the number of events hosted per month, the number of emails credits bought and the number of certificate sending credits bought. 
+
+Is hould also have a financial section, showing how much processed in events, and how much we made in profit. 
+
+It should also contain a record of all emails sents(automatically as users interact with the platform and as newletters. )
+
+The financial page should also contain an expenses section, it doesn't do anything, just a section for the admin to record all thrid party softwares used and the cost of each. The cost for emails and paid events and certificate income is recorded and authomatically subtracted from the total expenses to see if we have become profitable it should also use the current data to predict the potential growth metrics and also the number of years it would take to reach profitability. This is calculated by using all the information available. 
+
+This prediction should be able to look at user growth, user must popular activities, see if these activities are ones they pay for or free activities and then use these to enrich the algorithm in it's prediction to also provide action points, should more marketing be done to get users, should particular feature be monetized, should I create send more emails to current event organizers to use particular paid events, should I reach out to form respondents and quize participants encouragin them to use the paltform for their own specific use cases? All these should be considered in making this prediction. 
+
+The customer services should be on hold until the AI customer service is built, do I can intergrate that backend to the UI here. 
+
+The admin dashboard should have some automated tasks: 
+On sunday nights and monday nights it should send out emails to all users and previous event registeres of event happening in there city, if no event is happening in there city that should be notified also that their is not event in there city and she can organize an event in the city. 
+
+Every webnessday night, it should send emails to any previous quize participant inviting them participate in quizes, suggesting some quizes. This email list should also include 1/4 of all customers randomly/authomatically selected. 
+
+The admin should also be able to monitor email delivability for every email send. Newslettered that recieve abnormal blackmails or are reported to be spam leads to an automatic ban of the users account, and the user would be notified via email that their account has been banned and they can request a detailed review. The admin should auto create the report leading to the ban so communication with the customer/user would beeasier. 
+
+Accounts can be banned and reactivated from this admin portal. 
+
+The admin portal should handle content management for posting news and blog posts, it should also have a media section where images can be uploaded so that the url can be retrieved quickly and used for the blog posts. Their should be a table for uploading the URL of videos, all videos should be posted on Youtube then centrally collected on the admin portal so it can be accessed easily and used by the admins very quickly/easily. 

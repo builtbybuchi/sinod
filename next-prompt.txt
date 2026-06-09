@@ -1,0 +1,7 @@
+Connect the quiz and the forms to the dashboard, side bar and the bottom nav bar in mobile 
+
+When the + button is clicked it should make an animation like the options are coming from inside the add button and then just float above the button showing options for create event, quiz or form. 
+
+Add the custom question setting in the event creation pop-up mordal. When people click the add custom question button, check if they have filled every other field, if they have, slide open another the question setting interface then allow them to set the questions before clicking create event, if they do not have custome questions, they entirely skip this page as they can just click create event on the first page and that is all they need to do. 
+
+Remove the description text under the create event, create quiz and create form in mobile view. 

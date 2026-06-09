@@ -1,0 +1,30 @@
+This service should be used to make users experience with Sinod' better, 
+so whenever users have issue they'd be referred to the website to check 
+out what the issues are and how they can resolve it. The user is then 
+redirected/directed to a page where they chat with this system, this AI 
+system would search through all the blogs and informations it has access 
+to and to find out if the users problem
+ can be resolved if after guiding the user the issue is not resolved, it 
+ now forwards the complain to the admin. 
+
+ This should be the core backend service, it should be connected to the 
+ front end using the API url. 
+
+When a contact message is sent, this service reads the message first, if it's 
+a compliment or something that doesn't need the admins attention the AI handles 
+it independently, if it needs admin attention it forwards it to the notification 
+section of the admin so the admin checks the contact message page and view 
+the specific page. 
+
+On the frontend, add contact team to the settings page, so when the user have
+issues this is the only place they can use this service, so that the service can 
+trace who have the issues more naturally. It should be like a normal chat page 
+and the user knows that they are first talking with an AI service and that this 
+is to help provide instant access to assistance. If the AI resolves the issue 
+the user is asked to review the experience, if the AI doesn't resolve the issue
+The AI would notify the user that the compliance has been received and would be 
+
+
+
+ If a user has issues like with the 
+payment for event or registeration, the they should 

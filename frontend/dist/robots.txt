@@ -1,0 +1,13 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://sinod.lexrunit.com/sitemap.xml
+
+# Disallow crawling of login/private areas
+Disallow: /meeting/
+Disallow: /dashboard/
+
+# Prevent crawling of API paths
+Disallow: /api/
