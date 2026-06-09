@@ -30,7 +30,7 @@ jobs:
 
       - name: Install Doppler CLI
         run: |
-          curl -fsSL https://cli.doppler.com/install.sh | sh
+          curl -fsSL https://cli.doppler.com/install.sh | sudo sh
 
       - name: Install Wrangler
         run: |
@@ -132,7 +132,7 @@ jobs:
 
       - name: Install Doppler CLI
         run: |
-          curl -fsSL https://cli.doppler.com/install.sh | sh
+          curl -fsSL https://cli.doppler.com/install.sh | sudo sh
 
       - name: Install Wrangler
         run: |
