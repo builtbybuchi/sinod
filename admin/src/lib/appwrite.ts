@@ -4,14 +4,46 @@
  */
 import { Client, Databases, Users, Storage, Query, ID } from 'node-appwrite';
 
-const client = new Client()
-    .setEndpoint(process.env.APPWRITE_ENDPOINT!)
-    .setProject(process.env.APPWRITE_PROJECT_ID!)
-    .setKey(process.env.APPWRITE_API_KEY!);
+function getRequiredEnv(name: string): string {
+    const value = process.env[name];
+    if (!value) {
+        throw new Error(`Missing required Appwrite environment variable: ${name}`);
+    }
+    return value;
+}
 
-export const databases = new Databases(client);
-export const users = new Users(client);
-export const storage = new Storage(client);
+function createAppwriteClient() {
+    return new Client()
+        .setEndpoint(getRequiredEnv('APPWRITE_ENDPOINT'))
+        .setProject(getRequiredEnv('APPWRITE_PROJECT_ID'))
+        .setKey(getRequiredEnv('APPWRITE_API_KEY'));
+}
+
+function createLazyService<T extends object>(factory: () => T): T {
+    let instance: T | null = null;
+
+    return new Proxy({} as T, {
+        get(_target, property, receiver) {
+            if (!instance) {
+                instance = factory();
+            }
+
+            const value = Reflect.get(instance as object, property, receiver);
+            return typeof value === 'function' ? value.bind(instance) : value;
+        },
+        set(_target, property, value) {
+            if (!instance) {
+                instance = factory();
+            }
+
+            return Reflect.set(instance as object, property, value);
+        },
+    });
+}
+
+export const databases = createLazyService(() => new Databases(createAppwriteClient()));
+export const users = createLazyService(() => new Users(createAppwriteClient()));
+export const storage = createLazyService(() => new Storage(createAppwriteClient()));
 
 export const DATABASE_ID = process.env.APPWRITE_DATABASE_ID || 'sinod-db';
 

@@ -7,7 +7,14 @@ import { databases, DATABASE_ID, COLLECTIONS, Query } from '@/lib/appwrite';
 import { getSession } from '@/lib/auth';
 import Groq from 'groq-sdk';
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+function getGroqClient() {
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+        throw new Error('Missing required environment variable: GROQ_API_KEY');
+    }
+
+    return new Groq({ apiKey });
+}
 
 async function gatherPlatformMetrics() {
     const now = new Date();
@@ -108,6 +115,7 @@ export async function GET() {
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     try {
+        const groq = getGroqClient();
         const metrics = await gatherPlatformMetrics();
 
         const prompt = `You are a business analyst for Sinod.app, an event management and community platform based in Nigeria. Analyze the following real platform metrics and provide strategic growth predictions and actionable recommendations.
