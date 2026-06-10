@@ -5,6 +5,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { databases, DATABASE_ID, Query } from '@/lib/appwrite';
 import { getSession } from '@/lib/auth';
 
+export const runtime = 'edge';
+
 const VALID_COLLECTIONS: Record<string, string> = {
     events: 'events-collection',
     forms: 'forms',

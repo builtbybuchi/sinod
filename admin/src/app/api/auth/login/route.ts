@@ -4,6 +4,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createToken, getAdminCredentials, COOKIE_NAME } from '@/lib/auth';
 
+export const runtime = 'edge';
+
 // Simple rate limiting in-memory
 const attempts: Map<string, { count: number; resetAt: number }> = new Map();
 const MAX_ATTEMPTS = 5;

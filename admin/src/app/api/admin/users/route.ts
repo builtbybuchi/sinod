@@ -4,6 +4,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { users } from '@/lib/appwrite';
 import { getSession } from '@/lib/auth';
+
+export const runtime = 'edge';
 import { Query } from 'node-appwrite';
 
 export async function GET(request: NextRequest) {

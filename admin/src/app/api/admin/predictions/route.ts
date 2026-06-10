@@ -7,6 +7,8 @@ import { databases, DATABASE_ID, COLLECTIONS, Query } from '@/lib/appwrite';
 import { getSession } from '@/lib/auth';
 import Groq from 'groq-sdk';
 
+export const runtime = 'edge';
+
 function getGroqClient() {
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
