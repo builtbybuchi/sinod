@@ -1,0 +1,29 @@
+name: Build admin (Doppler)
+
+on:
+  push:
+    branches: [ staging, main ]
+  pull_request:
+    branches: [ staging, main ]
+
+jobs:
+  build-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install Doppler
+        uses: dopplerhq/cli@v3
+        with:
+          token: ${{ secrets.DOPPLER_TOKEN }}
+
+      - name: Run admin build with Doppler
+        working-directory: admin
+        run: doppler run -- pnpm run build
