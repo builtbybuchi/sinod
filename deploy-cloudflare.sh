@@ -93,7 +93,7 @@ print_success "Appwrite setup completed"
 # Deploy Admin (Next.js)
 print_info "Deploying Admin (Next.js)..."
 cd admin
-npm install
+npm install --legacy-peer-deps
 npm run build
 npx @cloudflare/next-on-pages
 wrangler pages deploy .vercel/output/static --project-name=sinod-admin$PROJECT_SUFFIX
@@ -103,7 +103,7 @@ print_success "Admin deployed successfully"
 # Deploy Frontend (React/Vite)
 print_info "Deploying Frontend (React/Vite)..."
 cd frontend
-npm install
+npm install --legacy-peer-deps
 npm run build
 wrangler pages deploy dist --project-name=sinod-frontend$PROJECT_SUFFIX
 cd ..
@@ -112,7 +112,7 @@ print_success "Frontend deployed successfully"
 # Deploy Landing (React/Vite)
 print_info "Deploying Landing (React/Vite)..."
 cd landing
-npm install
+npm install --legacy-peer-deps
 npm run build
 wrangler pages deploy dist --project-name=sinod-landing$PROJECT_SUFFIX
 cd ..

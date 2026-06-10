@@ -65,7 +65,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
         run: |
           cd admin
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           npx @cloudflare/next-on-pages
           wrangler pages deploy .vercel/output/static --project-name=sinod-admin-staging
@@ -76,7 +76,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
         run: |
           cd frontend
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           wrangler pages deploy dist --project-name=sinod-frontend-staging
 
@@ -86,7 +86,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
         run: |
           cd landing
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           wrangler pages deploy dist --project-name=sinod-landing-staging
 
@@ -163,7 +163,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
         run: |
           cd admin
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           npx @cloudflare/next-on-pages
           wrangler pages deploy .vercel/output/static --project-name=sinod-admin
@@ -174,7 +174,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
         run: |
           cd frontend
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           wrangler pages deploy dist --project-name=sinod-frontend
 
@@ -184,7 +184,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ env.CF_API_TOKEN }}
         run: |
           cd landing
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           wrangler pages deploy dist --project-name=sinod-landing
 
