@@ -5,6 +5,8 @@ import { NextResponse } from 'next/server';
 import { databases, DATABASE_ID, COLLECTIONS, Query } from '@/lib/appwrite';
 import { getSession } from '@/lib/auth';
 
+export const runtime = 'edge';
+
 export async function GET() {
     const session = await getSession();
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

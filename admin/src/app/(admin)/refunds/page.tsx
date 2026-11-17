@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { RotateCcw, Check, X, Clock, AlertTriangle, Search, Filter, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { RotateCcw, Check, X, Clock, Search, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
 interface Refund {
     $id: string;
@@ -96,8 +96,9 @@ export default function RefundsPage() {
             } else {
                 alert(data.error || data.message || 'Action failed');
             }
-        } catch (err: any) {
-            alert(err.message || 'Failed to process action');
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            alert(msg || 'Failed to process action');
         } finally {
             setProcessingId(null);
         }

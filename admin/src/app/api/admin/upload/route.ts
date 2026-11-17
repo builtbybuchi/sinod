@@ -3,9 +3,26 @@
  * Uploads files to Appwrite Storage and records metadata in admin-media collection
  */
 import { NextRequest, NextResponse } from 'next/server';
-import { storage, databases, DATABASE_ID, COLLECTIONS, BUCKET_ID, ID } from '@/lib/appwrite';
 import { getSession } from '@/lib/auth';
-import { InputFile } from 'node-appwrite/file';
+
+export const runtime = 'edge';
+
+const BUCKET_ID = process.env.APPWRITE_BUCKET_ID || 'default-bucket';
+
+function getRequiredEnv(name: string): string {
+    const value = process.env[name];
+    if (!value) {
+        throw new Error(`Missing required Appwrite environment variable: ${name}`);
+    }
+    return value;
+}
+
+function buildAppwriteHeaders() {
+    return {
+        'X-Appwrite-Project': getRequiredEnv('APPWRITE_PROJECT_ID'),
+        'X-Appwrite-Key': getRequiredEnv('APPWRITE_API_KEY'),
+    };
+}
 
 export async function POST(request: NextRequest) {
     const session = await getSession();
@@ -20,38 +37,59 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No file provided' }, { status: 400 });
         }
 
-        // Convert File to buffer for node-appwrite
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-        const fileId = ID.unique();
+        const endpoint = getRequiredEnv('APPWRITE_ENDPOINT').replace(/\/$/, '');
+        const projectId = getRequiredEnv('APPWRITE_PROJECT_ID');
+        const databaseId = getRequiredEnv('APPWRITE_DATABASE_ID');
+        const mediaCollectionId = process.env.APPWRITE_MEDIA_COLLECTION_ID || 'admin-media';
 
-        // Upload to Appwrite Storage
-        const uploadedFile = await storage.createFile(
-            BUCKET_ID,
-            fileId,
-            InputFile.fromBuffer(buffer, file.name)
-        );
+        // Upload to Appwrite Storage using the REST API so the route stays Edge-compatible.
+        const uploadForm = new FormData();
+        uploadForm.append('fileId', crypto.randomUUID());
+        uploadForm.append('file', file, file.name);
+
+        const uploadResponse = await fetch(`${endpoint}/storage/buckets/${BUCKET_ID}/files`, {
+            method: 'POST',
+            headers: buildAppwriteHeaders(),
+            body: uploadForm,
+        });
+
+        if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            throw new Error(`Appwrite file upload failed: ${uploadResponse.status} ${errorText}`);
+        }
+
+        const uploadedFile = await uploadResponse.json() as { $id: string };
 
         // Build the public file URL
-        const endpoint = process.env.APPWRITE_ENDPOINT;
-        const projectId = process.env.APPWRITE_PROJECT_ID;
         const fileUrl = `${endpoint}/storage/buckets/${BUCKET_ID}/files/${uploadedFile.$id}/view?project=${projectId}`;
 
         // Save metadata to admin-media collection
-        const mediaDoc = await databases.createDocument(
-            DATABASE_ID,
-            COLLECTIONS.MEDIA,
-            ID.unique(),
-            {
-                file_id: uploadedFile.$id,
-                url: fileUrl,
-                alt_text: altText,
-                uploaded_by: 'admin',
-                file_size: file.size,
-                mime_type: file.type,
-                created_at: new Date().toISOString(),
-            }
-        );
+        const createDocumentResponse = await fetch(`${endpoint}/databases/${databaseId}/collections/${mediaCollectionId}/documents`, {
+            method: 'POST',
+            headers: {
+                ...buildAppwriteHeaders(),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                documentId: crypto.randomUUID(),
+                data: {
+                    file_id: uploadedFile.$id,
+                    url: fileUrl,
+                    alt_text: altText,
+                    uploaded_by: 'admin',
+                    file_size: file.size,
+                    mime_type: file.type,
+                    created_at: new Date().toISOString(),
+                },
+            }),
+        });
+
+        if (!createDocumentResponse.ok) {
+            const errorText = await createDocumentResponse.text();
+            throw new Error(`Appwrite metadata save failed: ${createDocumentResponse.status} ${errorText}`);
+        }
+
+        const mediaDoc = await createDocumentResponse.json();
 
         return NextResponse.json({
             success: true,

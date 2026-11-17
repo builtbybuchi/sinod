@@ -5,6 +5,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { users } from '@/lib/appwrite';
 import { getSession } from '@/lib/auth';
 
+export const runtime = 'edge';
+
 export async function POST(
     request: NextRequest,
     { params }: { params: { id: string } }

@@ -1,0 +1,22 @@
+name = "sinod-newsletter"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "production"
+
+[env.staging]
+name = "sinod-newsletter-staging"
+vars = { ENVIRONMENT = "staging" }
+
+[env.production]
+name = "sinod-newsletter"
+vars = { ENVIRONMENT = "production" }
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "sinod-newsletter-assets"
+
+[build]
+command = "pip install -r requirements.txt"
+cwd = "."
